@@ -45,6 +45,10 @@ async def safe_callback_answer(callback: CallbackQuery, text: str = None, show_a
         logger.warning(f"Не удалось ответить на callback: {e}")
 
 
+
+
+
+
 def clean_phone_for_url(phone: str) -> str:
     """Очищает номер телефона для использования в URL"""
     cleaned = phone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "")

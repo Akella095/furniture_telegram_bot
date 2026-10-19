@@ -1,8 +1,9 @@
 # bot.py
 import asyncio
-import signal
 import sys
+import socks
 from aiogram import Bot, Dispatcher
+from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -11,7 +12,6 @@ from aiogram.types import BotCommand, BotCommandScopeDefault, BotCommandScopeCha
 from config import BOT_TOKEN, YOUR_ADMIN_ID, ADMIN_IDS
 from db.session import init_db, close_db
 from logger import logger
-
 
 from handlers.user import start, catalog, orders, search, support
 from handlers.admin import panel, products, categories, orders as admin_orders, support as admin_support, \
@@ -92,9 +92,12 @@ async def on_shutdown(bot: Bot):
 
 
 async def main():
+
     # Инициализация бота и диспетчера
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher(storage=MemoryStorage())
+
+
 
     # Middleware
     dp.update.middleware(DbSessionMiddleware())
